@@ -4,98 +4,70 @@
   <meta charset="UTF-8">
   <title>Classement des Donateurs</title>
   <style>
-    /* Style du tableau principal */
-    table {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-      border-collapse: separate;
-      border-spacing: 0;
-      background-color: #ffffff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
+    /* Style de la page */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: transparent;
+      margin: 0;
       font-family: 'Arial', sans-serif;
     }
 
-    /* Style pour l'en-tête */
-    table thead {
-      background-color: #1f8ef1;
-      color: #ffffff;
-    }
-
-    table thead th {
-      padding: 12px 16px;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    /* Style pour les lignes du corps du tableau */
-    table tbody tr {
-      transition: background-color 0.3s;
-    }
-
-    table tbody tr:nth-child(even) {
-      background-color: #f8f9fa; /* Ligne de couleur alternative */
-    }
-
-    table tbody tr:hover {
-      background-color: #e9ecef; /* Effet survol */
-    }
-
-    /* Style pour les cellules */
-    table td {
-      padding: 10px 16px;
-      font-size: 15px;
-      color: #333;
-      text-align: left;
-    }
-
-    /* Style spécial pour le premier rang (meilleur donateur) */
-    table tbody tr:first-child {
-      background-color: #ffeb3b;
-      font-weight: bold;
-    }
-
-    table tbody tr:first-child:hover {
-      background-color: #ffe082;
-    }
-
-    /* Bordures internes pour une apparence de séparation nette */
-    table td, table th {
-      border-bottom: 1px solid #ddd;
-    }
-
-    /* Style d'arrondi des coins seulement en haut */
-    table thead th:first-child {
-      border-top-left-radius: 8px;
-    }
-
-    table thead th:last-child {
-      border-top-right-radius: 8px;
-    }
-
-    /* Dernière ligne sans bordure */
-    table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* Style de conteneur pour l'iframe */
-    .iframe-container {
+    /* Conteneur principal de l'overlay */
+    .overlay-container {
       width: 100%;
-      max-width: 600px;
-      height: 400px; /* Hauteur fixe pour mieux encadrer l'iframe */
-      margin: auto;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+      max-width: 500px;
+      background: #1c1e26;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
       overflow: hidden;
+      border: 2px solid #00ffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Titre */
+    .overlay-title {
+      background: linear-gradient(90deg, #00ffff, #4b0082);
+      color: #ffffff;
+      text-align: center;
+      padding: 12px;
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      width: 100%;
+    }
+
+    /* Iframe pour Google Sheets */
+    .donors-table {
+      width: 100%;
+      height: 400px; /* Ajustez la hauteur selon vos besoins */
+      border: none;
+      background: #2b2f3a;
+    }
+
+    /* Bordures et arrondis de l'iframe */
+    .donors-table-wrapper {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true" width="100%" height="100%" frameborder="0"></iframe>
+  <div class="overlay-container">
+    <div class="overlay-title">Top Donateurs</div>
+    <div class="donors-table-wrapper">
+      <iframe 
+        class="donors-table"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true" 
+        frameborder="0">
+      </iframe>
+    </div>
   </div>
 </body>
 </html>
