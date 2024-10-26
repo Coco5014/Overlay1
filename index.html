@@ -9,38 +9,91 @@
       color: #ffffff;
       background-color: transparent;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
+
     .top-donations {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 20px;
+      background: linear-gradient(145deg, #1e1e2f, #2a2a3d);
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      width: 300px;
     }
+
+    .top-donations h2 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ffd700;
+      margin: 0;
+      text-shadow: 1px 1px 2px #000;
+    }
+
     .donation {
       display: flex;
       align-items: center;
-      margin: 10px 0;
-      font-size: 20px;
-      color: #ffd700; /* Couleur or pour les montants */
-      text-shadow: 1px 1px 2px #000;
+      background-color: #33334d;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 15px 0;
+      color: #ffd700;
+      font-size: 18px;
+      transition: transform 0.3s ease;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
     }
+
+    .donation:hover {
+      transform: scale(1.05);
+    }
+
     .donation img {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       margin-right: 10px;
+      border: 2px solid #ffd700;
+      box-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8);
     }
+
+    .donator-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .donator-name {
       color: #ffffff;
+      font-weight: bold;
+      font-size: 18px;
     }
+
+    .donator-amount {
+      color: #ffd700;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
     .trophy {
       margin-right: 5px;
       color: #ffd700;
-      font-size: 24px;
+      font-size: 26px;
+      animation: bounce 1s infinite alternate;
+    }
+
+    /* Animation du trophée */
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
     }
   </style>
 </head>
 <body>
-  <div class="top-donations" id="top-donations">Chargement des meilleurs dons...</div>
+  <div class="top-donations" id="top-donations">
+    <h2>Top 3 Donateurs</h2>
+  </div>
 
   <script>
     async function fetchTopDonations() {
@@ -52,7 +105,7 @@
         if (data.topDonations) {
           // Cible l'élément pour afficher les 3 meilleurs dons
           const topDonationsContainer = document.getElementById("top-donations");
-          topDonationsContainer.innerHTML = ""; // Efface le contenu actuel
+          topDonationsContainer.innerHTML = "<h2>Top 3 Donateurs</h2>"; // Efface le contenu actuel
 
           data.topDonations.forEach((donation, index) => {
             // Création de chaque don à afficher
@@ -72,8 +125,22 @@
             profileImg.src = donation.photoUrl || "https://i.ibb.co/b2KcnVT/noix3.png"; // Met une URL par défaut si photo non fournie
             donationElement.appendChild(profileImg);
 
-            // Texte du donateur et montant
-            donationElement.innerHTML += `<span class="donator-name">${donation.donatorName}</span> - ${donation.amount} €`;
+            // Infos du donateur (nom et montant)
+            const donatorInfo = document.createElement("div");
+            donatorInfo.classList.add("donator-info");
+            
+            const donatorName = document.createElement("span");
+            donatorName.classList.add("donator-name");
+            donatorName.innerText = donation.donatorName;
+            
+            const donatorAmount = document.createElement("span");
+            donatorAmount.classList.add("donator-amount");
+            donatorAmount.innerText = `${donation.amount} €`;
+
+            donatorInfo.appendChild(donatorName);
+            donatorInfo.appendChild(donatorAmount);
+            donationElement.appendChild(donatorInfo);
+
             topDonationsContainer.appendChild(donationElement);
           });
         } else {
