@@ -1,82 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Top 3 Donateurs</title>
-    <style>
-        /* Style du conteneur principal */
-        .container {
-            font-family: Arial, sans-serif;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 300px;
-            text-align: center;
-            margin: auto;
-        }
-        /* Titre principal */
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #FFD700;
-        }
-        /* Liste des donateurs */
-        .donator-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .donator-list li {
-            font-size: 18px;
-            margin: 8px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        .donator-name {
-            color: #87CEEB;
-        }
-        .donator-amount {
-            font-weight: bold;
-            color: #00FF00;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Top 3 Donateurs</title>
+  <style>
+    /* Style de base pour l'overlay */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent pour s'adapter au fond */
+      font-family: Arial, sans-serif;
+    }
+
+    /* Conteneur principal */
+    .donator-overlay {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Titre */
+    .donator-overlay h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #ffcc00;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+
+    /* Liste des donateurs */
+    .donator-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .donator-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .donator-name {
+      font-weight: bold;
+    }
+
+    .donator-amount {
+      color: #ffcc00;
+    }
+
+    /* Style de la dernière ligne */
+    .donator-list li:last-child {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title">Top 3 Donateurs</div>
-        <ul class="donator-list" id="donatorList">
-            <!-- Les donateurs seront affichés ici -->
-        </ul>
-    </div>
+  <div class="donator-overlay">
+    <h2>Top 3 Donateurs</h2>
+    <ul id="donatorList" class="donator-list">
+      <!-- Les donateurs seront insérés ici via JavaScript -->
+    </ul>
+  </div>
 
-    <script>
-        // URL de l'API Google Apps Script
-        const apiUrl = "https://script.google.com/macros/s/AKfycbwjIYw0arJJZA9r156Ot4-Wm7Xbbxd3JVTdyiKT5fWnTzMcVGCMu4m-rNxZFCN_tL5Myw/exec";
+  <script>
+    // URL de l'API pour récupérer les donateurs
+    const apiUrl = "https://script.google.com/macros/s/AKfycbwjIYw0arJJZA9r156Ot4-Wm7Xbbxd3JVTdyiKT5fWnTzMcVGCMu4m-rNxZFCN_tL5Myw/exec";
 
-        // Fonction pour récupérer les données et les afficher
-        async function fetchDonators() {
-            try {
-                const response = await fetch(apiUrl);
-                const donators = await response.json();
+    // Fonction pour récupérer et afficher les donateurs
+    async function fetchDonators() {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
+            
+            const donators = await response.json();
+            const donatorList = document.getElementById("donatorList");
+            donatorList.innerHTML = ""; // Vider la liste avant de l'actualiser
 
-                const donatorList = document.getElementById("donatorList");
-                donatorList.innerHTML = ""; // Effacer le contenu précédent
-
-                donators.forEach(donator => {
-                    const listItem = document.createElement("li");
-                    listItem.innerHTML = `<span class="donator-name">${donator.name}</span><span class="donator-amount">${donator.amount}€</span>`;
-                    donatorList.appendChild(listItem);
-                });
-            } catch (error) {
-                console.error("Erreur lors de la récupération des donateurs :", error);
-            }
+            // Ajouter chaque donateur à la liste
+            donators.forEach(donator => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `<span class="donator-name">${donator.name}</span><span class="donator-amount">${donator.amount}€</span>`;
+                donatorList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("Erreur lors de la récupération des donateurs :", error);
         }
+    }
 
-        // Actualiser les données toutes les 5 minutes
-        fetchDonators();
-        setInterval(fetchDonators, 300000); // 300000 ms = 5 minutes
-    </script>
+    // Charger les donateurs au démarrage et actualiser toutes les 5 minutes
+    fetchDonators();
+    setInterval(fetchDonators, 300000); // Actualisation toutes les 5 minutes
+  </script>
 </body>
 </html>
