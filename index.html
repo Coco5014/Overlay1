@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>Top 3 Donateurs</title>
   <style>
-    /* Ton CSS actuel ici */
-    .donor-box {
+    /* Conteneur principal du podium */
+    .podium-container {
       background-color: #333;
       color: #FFD700;
       padding: 20px;
@@ -16,40 +16,86 @@
       text-align: center;
       font-family: Arial, sans-serif;
     }
-    .donor {
-      margin: 5px 0;
+    
+    /* Titre */
+    .podium-title {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #FFD700;
+    }
+
+    /* Style des positions */
+    .position {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
       font-size: 1.2em;
     }
-    h1 {
-      margin-bottom: 10px;
-      color: #FFD700;
+
+    /* Style pour chaque place */
+    .first {
+      background-color: #FFD700;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #333;
+    }
+    .second {
+      background-color: #C0C0C0;
+      color: #333;
+    }
+    .third {
+      background-color: #cd7f32;
+      color: #333;
+    }
+
+    /* Style du texte pour nom et points */
+    .donor-name {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .donor-points {
+      font-size: 0.9em;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <div class="donor-box">
-    <h1>Top 3 Donateurs</h1>
-    <div id="donor-list">Chargement...</div>
+  <div class="podium-container">
+    <div class="podium-title">Top 3 Donateurs</div>
+    <div id="first-place" class="position first">Chargement...</div>
+    <div id="second-place" class="position second">Chargement...</div>
+    <div id="third-place" class="position third">Chargement...</div>
   </div>
 
   <script>
-    // Remplace l'URL ci-dessous par celle de ton script Google Apps
     const url = "https://script.google.com/macros/s/AKfycbwjIYw0arJJZA9r156Ot4-Wm7Xbbxd3JVTdyiKT5fWnTzMcVGCMu4m-rNxZFCN_tL5Myw/exec";
 
     async function fetchDonors() {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        const donorList = document.getElementById("donor-list");
-        donorList.innerHTML = ""; // Vide le contenu actuel
-        data.forEach(donor => {
-          const donorElement = document.createElement("div");
-          donorElement.classList.add("donor");
-          donorElement.textContent = `${donor.name} ${donor.amount} points`;
-          donorList.appendChild(donorElement);
-        });
+
+        const firstPlace = document.getElementById("first-place");
+        const secondPlace = document.getElementById("second-place");
+        const thirdPlace = document.getElementById("third-place");
+
+        if (data[0]) {
+          firstPlace.innerHTML = `<span class="donor-name">${data[0].name}</span> <span class="donor-points">${data[0].amount} points</span>`;
+        }
+        if (data[1]) {
+          secondPlace.innerHTML = `<span class="donor-name">${data[1].name}</span> <span class="donor-points">${data[1].amount} points</span>`;
+        }
+        if (data[2]) {
+          thirdPlace.innerHTML = `<span class="donor-name">${data[2].name}</span> <span class="donor-points">${data[2].amount} points</span>`;
+        }
       } catch (error) {
-        document.getElementById("donor-list").textContent = "Erreur de chargement";
+        document.getElementById("first-place").textContent = "Erreur de chargement";
+        document.getElementById("second-place").textContent = "Erreur de chargement";
+        document.getElementById("third-place").textContent = "Erreur de chargement";
       }
     }
 
