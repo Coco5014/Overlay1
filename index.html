@@ -16,13 +16,26 @@
       margin-top: 20px;
     }
     .donation {
+      display: flex;
+      align-items: center;
       margin: 10px 0;
       font-size: 20px;
       color: #ffd700; /* Couleur or pour les montants */
       text-shadow: 1px 1px 2px #000;
     }
+    .donation img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
     .donator-name {
       color: #ffffff;
+    }
+    .trophy {
+      margin-right: 5px;
+      color: #ffd700;
+      font-size: 24px;
     }
   </style>
 </head>
@@ -45,7 +58,22 @@
             // Création de chaque don à afficher
             const donationElement = document.createElement("div");
             donationElement.classList.add("donation");
-            donationElement.innerHTML = `${index + 1}. <span class="donator-name">${donation.donatorName}</span> - ${donation.amount} €`;
+
+            // Ajout du trophée pour le premier donateur
+            if (donation.isTop) {
+              const trophy = document.createElement("span");
+              trophy.classList.add("trophy");
+              trophy.innerText = "🏆";
+              donationElement.appendChild(trophy);
+            }
+
+            // Ajout de la photo de profil
+            const profileImg = document.createElement("img");
+            profileImg.src = donation.photoUrl || "default_profile_image_url.jpg"; // Met une URL par défaut si photo non fournie
+            donationElement.appendChild(profileImg);
+
+            // Texte du donateur et montant
+            donationElement.innerHTML += `<span class="donator-name">${donation.donatorName}</span> - ${donation.amount} €`;
             topDonationsContainer.appendChild(donationElement);
           });
         } else {
