@@ -4,70 +4,52 @@
   <meta charset="UTF-8">
   <title>Classement des Donateurs</title>
   <style>
-    /* Style de la page */
-    body {
+    /* Style global */
+    body, html {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       background: transparent;
       margin: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
-    /* Conteneur principal de l'overlay */
-    .overlay-container {
+    /* Conteneur de l'overlay */
+    .overlay {
       width: 100%;
-      max-width: 500px;
-      background: #1c1e26;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
+      max-width: 450px;
+      background: #1e1e2f;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
       overflow: hidden;
       border: 2px solid #00ffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      text-align: center;
     }
 
-    /* Titre */
-    .overlay-title {
+    /* Titre stylisé */
+    .title {
       background: linear-gradient(90deg, #00ffff, #4b0082);
-      color: #ffffff;
-      text-align: center;
-      padding: 12px;
-      font-size: 20px;
+      color: #fff;
+      padding: 10px;
+      font-size: 18px;
       font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      width: 100%;
     }
 
-    /* Iframe pour Google Sheets */
-    .donors-table {
+    /* Iframe de Google Sheets */
+    .sheet-frame {
       width: 100%;
-      height: 400px; /* Ajustez la hauteur selon vos besoins */
+      height: 300px;
       border: none;
-      background: #2b2f3a;
-    }
-
-    /* Bordures et arrondis de l'iframe */
-    .donors-table-wrapper {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 8px;
+      background: #2a2d3e;
     }
   </style>
 </head>
 <body>
-  <div class="overlay-container">
-    <div class="overlay-title">Top Donateurs</div>
-    <div class="donors-table-wrapper">
-      <iframe 
-        class="donors-table"
-        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true" 
-        frameborder="0">
-      </iframe>
-    </div>
+  <div class="overlay">
+    <div class="title">Top Donateurs</div>
+    <iframe class="sheet-frame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true"></iframe>
   </div>
 </body>
 </html>
