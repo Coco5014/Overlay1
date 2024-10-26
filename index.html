@@ -12,8 +12,9 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent pour s'adapter au fond */
+      background: transparent; /* Fond transparent */
       font-family: Arial, sans-serif;
+      color: #fff;
     }
 
     /* Conteneur principal */
@@ -21,9 +22,8 @@
       background: rgba(0, 0, 0, 0.7);
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      width: 250px;
       text-align: center;
-      color: #fff;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
     }
 
@@ -39,14 +39,14 @@
     .donator-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 10px 0 0 0;
     }
 
     .donator-list li {
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      font-size: 18px;
+      font-size: 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
@@ -58,7 +58,7 @@
       color: #ffcc00;
     }
 
-    /* Style de la dernière ligne */
+    /* Dernière ligne sans bordure */
     .donator-list li:last-child {
       border-bottom: none;
     }
@@ -86,6 +86,12 @@
             const donatorList = document.getElementById("donatorList");
             donatorList.innerHTML = ""; // Vider la liste avant de l'actualiser
 
+            // Vérifier s'il y a des donateurs à afficher
+            if (donators.length === 0) {
+                donatorList.innerHTML = "<li>Aucun donateur</li>";
+                return;
+            }
+
             // Ajouter chaque donateur à la liste
             donators.forEach(donator => {
                 const listItem = document.createElement("li");
@@ -94,6 +100,7 @@
             });
         } catch (error) {
             console.error("Erreur lors de la récupération des donateurs :", error);
+            document.getElementById("donatorList").innerHTML = "<li>Erreur de chargement</li>";
         }
     }
 
