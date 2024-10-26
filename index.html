@@ -33,7 +33,7 @@
     async function fetchTopDonations() {
       try {
         // URL du script Google Apps Script pour récupérer les 3 meilleurs dons
-        const response = await fetch("https://script.google.com/macros/s/[VOTRE_ID_SCRIPT]/exec");
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwIRnscOPWQHCs5P0aZ-6JgiCdH1tkPw34Um7K3y9JhgRM9D7E1Cn9lWszJBgq6LwvXpg/exec");
         const data = await response.json();
         
         if (data.topDonations) {
