@@ -4,79 +4,57 @@
   <meta charset="UTF-8">
   <title>Top 3 Donateurs</title>
   <style>
-    /* Style de la boîte principale */
-    #donator-box {
-      background-color: rgba(0, 0, 0, 0.7);
+    /* Ton CSS actuel ici */
+    .donor-box {
+      background-color: #333;
       color: #FFD700;
-      font-family: 'Arial', sans-serif;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       max-width: 300px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       margin: auto;
+      text-align: center;
+      font-family: Arial, sans-serif;
     }
-
-    /* Titre */
-    #donator-title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    /* Liste des donateurs */
-    .donator {
-      font-size: 18px;
+    .donor {
       margin: 5px 0;
-      color: #FFF;
+      font-size: 1.2em;
     }
-
-    .amount {
+    h1 {
+      margin-bottom: 10px;
       color: #FFD700;
     }
   </style>
 </head>
 <body>
-
-<div id="donator-box">
-  <div id="donator-title">Top 3 Donateurs</div>
-  <div id="donator-list">
-    Chargement des donateurs...
+  <div class="donor-box">
+    <h1>Top 3 Donateurs</h1>
+    <div id="donor-list">Chargement...</div>
   </div>
-</div>
 
-<script>
-  // URL de votre script Google Apps qui renvoie les données JSON
-  const url = "https://script.google.com/macros/s/AKfycbwjIYw0arJJZA9r156Ot4-Wm7Xbbxd3JVTdyiKT5fWnTzMcVGCMu4m-rNxZFCN_tL5Myw/exec";
-               
-  // Fonction pour récupérer et afficher les donateurs
-  async function fetchDonators() {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Erreur de chargement");
+  <script>
+    // Remplace l'URL ci-dessous par celle de ton script Google Apps
+    const url = "https://script.google.com/macros/s/TON_URL/exec";
 
-      const donators = await response.json();
-      const list = document.getElementById('donator-list');
-      list.innerHTML = ''; // Vide le contenu actuel
-
-      donators.forEach(donator => {
-        const donatorDiv = document.createElement('div');
-        donatorDiv.classList.add('donator');
-        donatorDiv.innerHTML = `${donator.name} <span class="amount">${donator.amount}€</span>`;
-        list.appendChild(donatorDiv);
-      });
-    } catch (error) {
-      document.getElementById('donator-list').textContent = 'Erreur de chargement';
-      console.error(error);
+    async function fetchDonors() {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const donorList = document.getElementById("donor-list");
+        donorList.innerHTML = ""; // Vide le contenu actuel
+        data.forEach(donor => {
+          const donorElement = document.createElement("div");
+          donorElement.classList.add("donor");
+          donorElement.textContent = `${donor.name} ${donor.amount} points`;
+          donorList.appendChild(donorElement);
+        });
+      } catch (error) {
+        document.getElementById("donor-list").textContent = "Erreur de chargement";
+      }
     }
-  }
 
-  // Appel de la fonction au chargement
-  fetchDonators();
-
-  // Actualiser toutes les 5 minutes
-  setInterval(fetchDonators, 300000);
-</script>
-
+    fetchDonors();
+    setInterval(fetchDonors, 300000); // Mise à jour toutes les 5 minutes
+  </script>
 </body>
 </html>
