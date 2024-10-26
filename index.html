@@ -77,32 +77,32 @@
     const apiUrl = "https://script.google.com/macros/s/AKfycbwjIYw0arJJZA9r156Ot4-Wm7Xbbxd3JVTdyiKT5fWnTzMcVGCMu4m-rNxZFCN_tL5Myw/exec";
 
     // Fonction pour récupérer et afficher les donateurs
-    async function fetchDonators() {
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
-            
-            const donators = await response.json();
-            const donatorList = document.getElementById("donatorList");
-            donatorList.innerHTML = ""; // Vider la liste avant de l'actualiser
+async function fetchDonators() {
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`Erreur HTTP : ${response.status} ${response.statusText}`);
+        
+        const donators = await response.json();
+        const donatorList = document.getElementById("donatorList");
+        donatorList.innerHTML = ""; // Vider la liste avant de l'actualiser
 
-            // Vérifier s'il y a des donateurs à afficher
-            if (donators.length === 0) {
-                donatorList.innerHTML = "<li>Aucun donateur</li>";
-                return;
-            }
-
-            // Ajouter chaque donateur à la liste
-            donators.forEach(donator => {
-                const listItem = document.createElement("li");
-                listItem.innerHTML = `<span class="donator-name">${donator.name}</span><span class="donator-amount">${donator.amount}€</span>`;
-                donatorList.appendChild(listItem);
-            });
-        } catch (error) {
-            console.error("Erreur lors de la récupération des donateurs :", error);
-            document.getElementById("donatorList").innerHTML = "<li>Erreur de chargement</li>";
+        // Vérifier s'il y a des donateurs à afficher
+        if (donators.length === 0) {
+            donatorList.innerHTML = "<li>Aucun donateur</li>";
+            return;
         }
+
+        // Ajouter chaque donateur à la liste
+        donators.forEach(donator => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `<span class="donator-name">${donator.name}</span><span class="donator-amount">${donator.amount}€</span>`;
+            donatorList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error("Erreur lors de la récupération des donateurs :", error);
+        document.getElementById("donatorList").innerHTML = `<li>${error.message}</li>`;
     }
+}
 
     // Charger les donateurs au démarrage et actualiser toutes les 5 minutes
     fetchDonators();
