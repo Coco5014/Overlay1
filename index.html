@@ -36,22 +36,31 @@
     }
 
     /* Style de l'iframe pour Google Sheets */
+    .iframe-container {
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
     .donators-iframe {
       width: 100%;
-      height: 120px; /* hauteur ajustée pour n'afficher que les trois meilleurs donateurs */
+      height: 140px; /* Augmente la hauteur pour masquer le bas */
       border: none;
-      overflow: hidden;
+      margin-top: -20px; /* Cache la ligne de publication */
     }
   </style>
 </head>
 <body>
   <div class="overlay">
     <div class="title">Top 3 Donateurs</div>
-    <!-- Iframe pour intégrer les données de Google Sheets -->
-    <iframe 
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true&widget=true&headers=false" 
-      class="donators-iframe">
-    </iframe>
+    <!-- Conteneur d'iframe pour masquer le texte Google Sheets -->
+    <div class="iframe-container">
+      <iframe 
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOuW9I45Zydtlh6vIOoR8ZMOBVZzgGfSv043l2svhPPcL5QFK8ybj7inwkyMjEfyyYILNUV4kaPl8c/pubhtml?gid=814304411&single=true&widget=true&headers=false" 
+        class="donators-iframe">
+      </iframe>
+    </div>
   </div>
 </body>
 </html>
