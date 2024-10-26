@@ -2,38 +2,64 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Dernier Don</title>
+  <title>Top 3 Dons</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      color: white;
+      color: #ffffff;
       background-color: transparent;
       text-align: center;
     }
-    .don-info {
+    .top-donations {
       font-size: 24px;
       font-weight: bold;
+      margin-top: 20px;
+    }
+    .donation {
+      margin: 10px 0;
+      font-size: 20px;
+      color: #ffd700; /* Couleur or pour les montants */
+      text-shadow: 1px 1px 2px #000;
+    }
+    .donator-name {
+      color: #ffffff;
     }
   </style>
 </head>
 <body>
-  <div class="don-info" id="don-info">Chargement du dernier don...</div>
+  <div class="top-donations" id="top-donations">Chargement des meilleurs dons...</div>
 
   <script>
-    async function fetchDonationData() {
+    async function fetchTopDonations() {
       try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbwIRnscOPWQHCs5P0aZ-6JgiCdH1tkPw34Um7K3y9JhgRM9D7E1Cn9lWszJBgq6LwvXpg/exec");
+        // URL du script Google Apps Script pour récupérer les 3 meilleurs dons
+        const response = await fetch("https://script.google.com/macros/s/[VOTRE_ID_SCRIPT]/exec");
         const data = await response.json();
-        document.getElementById("don-info").innerText = `Merci ${data.donatorName} pour ${data.amount} € !`;
+        
+        if (data.topDonations) {
+          // Cible l'élément pour afficher les 3 meilleurs dons
+          const topDonationsContainer = document.getElementById("top-donations");
+          topDonationsContainer.innerHTML = ""; // Efface le contenu actuel
+
+          data.topDonations.forEach((donation, index) => {
+            // Création de chaque don à afficher
+            const donationElement = document.createElement("div");
+            donationElement.classList.add("donation");
+            donationElement.innerHTML = `${index + 1}. <span class="donator-name">${donation.donatorName}</span> - ${donation.amount} €`;
+            topDonationsContainer.appendChild(donationElement);
+          });
+        } else {
+          document.getElementById("top-donations").innerText = data.message || "Erreur lors du chargement.";
+        }
       } catch (error) {
-        document.getElementById("don-info").innerText = "Erreur de chargement du don.";
+        document.getElementById("top-donations").innerText = "Erreur de chargement des dons.";
         console.error("Erreur :", error);
       }
     }
 
     // Mettre à jour les données toutes les 10 secondes
-    setInterval(fetchDonationData, 10000);
-    fetchDonationData(); // Appeler une première fois au chargement
+    setInterval(fetchTopDonations, 10000);
+    fetchTopDonations(); // Appeler une première fois au chargement
   </script>
 </body>
 </html>
