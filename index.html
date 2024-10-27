@@ -41,12 +41,9 @@
       margin: 15px 0;
       color: #ffd700;
       font-size: 18px;
-      transition: transform 0.3s ease; /* Transition pour le zoom et le rétrécissement */
+      cursor: pointer;
+      transition: transform 0.3s ease, height 0.3s ease, padding 0.3s ease;
       box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .donation:hover {
-      transform: scale(1.05); /* Effet de zoom au survol */
     }
 
     .donation img {
@@ -87,6 +84,14 @@
     @keyframes bounce {
       from { transform: translateY(0); }
       to { transform: translateY(-5px); }
+    }
+
+    /* Style pour l'état déployé */
+    .expanded {
+      transform: scale(1.1);
+      height: auto;
+      padding: 20px;
+      background-color: #44445a;
     }
   </style>
 </head>
@@ -140,6 +145,17 @@
             donatorInfo.appendChild(donatorName);
             donatorInfo.appendChild(donatorAmount);
             donationElement.appendChild(donatorInfo);
+
+            // Gestion de l'expansion/rétraction
+            donationElement.addEventListener('click', () => {
+              // Ajouter la classe "expanded"
+              donationElement.classList.add("expanded");
+
+              // Retirer la classe après 5 secondes
+              setTimeout(() => {
+                donationElement.classList.remove("expanded");
+              }, 5000);
+            });
 
             topDonationsContainer.appendChild(donationElement);
           });
