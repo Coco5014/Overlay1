@@ -33,9 +33,18 @@
       text-shadow: 1px 1px 2px #000;
     }
 
+    /* Liste de dons avec animation d'affichage */
     .donation-list {
-      display: none; /* Cache la liste par défaut */
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.5s ease;
       margin-top: 15px;
+    }
+
+    .donation-list.show {
+      max-height: 500px; /* Hauteur max lors du déploiement */
+      opacity: 1;
     }
 
     .donation {
@@ -98,15 +107,15 @@
       const donationList = document.getElementById("donation-list");
 
       // Si la liste est déjà affichée, on la cache
-      if (donationList.style.display === "block") {
-        donationList.style.display = "none";
+      if (donationList.classList.contains("show")) {
+        donationList.classList.remove("show");
         clearTimeout(donationsTimeout); // Annule le timeout si déjà en cours
       } else {
         // Sinon, on affiche la liste et on la cache après 5 secondes
-        donationList.style.display = "block";
+        donationList.classList.add("show");
         fetchTopDonations();
         donationsTimeout = setTimeout(() => {
-          donationList.style.display = "none";
+          donationList.classList.remove("show");
         }, 5000);
       }
     }
